@@ -5,7 +5,8 @@
  import Clipping from './Clipping';
 import Widget from './Widget';
 import Homepage from './Homepage';
+import Layout from './Layout';
  
  export {
-   Clipping, Widget, Homepage
+   Clipping, Widget, Homepage, Layout
  }
