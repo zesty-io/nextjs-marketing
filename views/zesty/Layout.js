@@ -27,71 +27,147 @@
   * Images API: https://zesty.org/services/media-storage-micro-dam/on-the-fly-media-optimization-and-dynamic-image-manipulation
   */
  
- const codeStringNoComponents = `<AutoLayout content={content} />`
- const codeStringWithComponents = `
- import React from "react";
+const codeStringNoComponents = `
+import { AutoLayout } from "@zesty-io/react-autolayout";
+
+<AutoLayout content={content} />
+`
+
+const codeStringWithComponents = `
+import React from "react";
  
- import { AutoLayout } from "@zesty-io/react-autolayout";
- import { CustomTextarea } from "./CustomTextarea";
- import { CustomColumn } from "./CustomColumn";
- import { CustomRow } from "./CustomRow";
+import { AutoLayout } from "@zesty-io/react-autolayout";
+import { CustomTextarea } from "./CustomTextarea";
+import { CustomColumn } from "./CustomColumn";
+import { CustomRow } from "./CustomRow";
  
- export default function Page({ content }) {
-     <AutoLayout content={content} components={{
-         "textarea": CustomTextarea,
-         "column": CustomColumn,
-         "row": CustomRow
-     }} />
- }
- `;
+export default function Page({ content }) {
+    <AutoLayout content={content} components={{
+        "wysiwyg_basic": CustomTextarea,
+        "text": CustomText,
+        "column": CustomColumn,
+        "row": CustomRow,
+        "design": CustomDesign,
+        "link": CustomLink   
+    }} />
+}
+`;
+
 
 import React  from 'react';
 import { AutoLayout } from "@zesty-io/react-autolayout";
-import { Typography, Box} from '@mui/material';
-
+import { Typography, Box, Tabs, Tab, Button} from '@mui/material';
+import PropTypes from 'prop-types';
 import { CustomRow } from "components/marketing-example/layouts/CustomRow";
 import { CustomColumn } from "components/marketing-example/layouts/CustomColumn";
 import { CustomTextarea } from "components/marketing-example/layouts/CustomTextarea";
 import { CustomText } from "components/marketing-example/layouts/CustomText";
+import { CustomLink } from "components/marketing-example/layouts/CustomLink";
 import { CustomNode } from "components/marketing-example/layouts/CustomNode";
-
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { CustomDesign } from 'components/marketing-example/layouts/CustomDesign';
+
+import examples from 'components/marketing-example/layouts/CodeExamples';
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ py: 1 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+  
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
+  
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
 
 export default function Layout({ content }) {
-   
-     return (
+    const [value, setValue] = React.useState(0);
+    
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+    
+    const editInZesty = `https://${process.env.zesty.instance_zuid}.manager.zesty.io/app/80-d8abaff6ef-wxs830`
+
+    return (
         <>
-        <CustomColumn>ASDfsadfsdafasdf</CustomColumn>
+        
             <Box sx={{ mt: 4 }}>
-                <Typography variant="h4" sx={{ mb: 2 }}>Layouts</Typography>
-                <Typography>Layouts is drag-n-drop experience for Markters to control the layout of their pages. 
+                <Button target="_blank" size="small" startIcon={<OpenInNewIcon />} sx={{float: 'right', mt: 1}} variant="outlined" href={editInZesty}>Edit Layouts Zesty</Button>
+                <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>Layouts</Typography>
+                <Typography sx={{mb: 3}}>Layouts is drag-n-drop experience for Marketers to control the layout of their pages. 
                         Layouts is installed from the <a href="https://www.zesty.io/marketplace/">Zesty Marketplace</a> and setup in next.js with 
                         an npm package <a href="https://www.npmjs.com/package/@zesty-io/react-autolayout">React Auto Layout by Zesty.io</a>
                 </Typography>
-                <Typography variant="h4" sx={{ my: 2 }}>Example without Custom Components or Styling</Typography>
-            </Box>
-
-            <SyntaxHighlighter showLineNumbers  language="javascript" style={nord}>
-                {codeStringNoComponents}
-            </SyntaxHighlighter>
-            
-            <Box sx={{ my: 4, p:2, border: '1px #ccc solid', borderRadius: '5px' }}>
-                <AutoLayout content={content}  />
                 
             </Box>
-            <Typography variant="h4" sx={{ my: 2 }}>Example with Custom Components</Typography>
-            <SyntaxHighlighter showLineNumbers  language="javascript" style={nord}>
-                {codeStringWithComponents}
-            </SyntaxHighlighter>
-            <Box sx={{ my: 4, p:2, border: '1px #ccc solid', borderRadius: '5px' }}>
-            <AutoLayout content={content} components={{
-                    "wysiwyg_basic": CustomTextarea,
-                    "text": CustomText,
-                    "column": CustomColumn,
-                    "row": CustomRow                   
-                }} />
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tab label="Basic Example" {...a11yProps(0)} />
+                    <Tab label="With Custom Components" {...a11yProps(1)} />
+                    <Tab label="Component Examples" {...a11yProps(2)} />
+                </Tabs>
             </Box>
+            <TabPanel value={value} index={0}>
+                <Box sx={{ my: 4, p:2, border: '1px #ccc solid', borderRadius: '5px' }}>
+                    <AutoLayout content={content}  />
+                </Box>
+                <Typography variant="h5" sx={{ my: 2 }}>Code Example</Typography>
+                <SyntaxHighlighter showLineNumbers  language="javascript" style={nord}>
+                    {codeStringNoComponents}
+                </SyntaxHighlighter>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+            
+                <Box sx={{ my: 4, px:4, pb:5, border: '1px #ccc solid', borderRadius: '5px' }}>
+                    <AutoLayout content={content} components={{
+                            "wysiwyg_basic": CustomTextarea,
+                            "text": CustomText,
+                            "column": CustomColumn,
+                            "row": CustomRow,
+                            "design": CustomDesign,
+                            "link": CustomLink                   
+                        }} />
+                </Box>
+                <Typography variant="h5" sx={{ my: 2 }}>Code Example with Custom Components</Typography>
+                <SyntaxHighlighter showLineNumbers  language="javascript" style={nord}>
+                    {codeStringWithComponents}
+                </SyntaxHighlighter>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                {examples.map(example => <Box key={example.name}>
+                    <Typography variant="h5" sx={{ my: 2 }}>Code Example for {example.name} Components</Typography>
+                    <SyntaxHighlighter showLineNumbers  language="javascript" style={nord}>
+                        {example.code}
+                    </SyntaxHighlighter>
+                </Box>)}
+            </TabPanel>
+            
+            
         </>
      );
  }

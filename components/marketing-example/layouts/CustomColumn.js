@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 
 export function CustomColumn(props) {
   return (
-    <Grid item>
+    <Grid item md={6} lg={6} xs={12}>
       {props.children}
     </Grid>
   );
