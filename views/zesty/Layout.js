@@ -69,36 +69,11 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { CustomDesign } from 'components/marketing-example/layouts/CustomDesign';
-
+import TabPanel from 'components/marketing-example/ui/TabPanel'
 import examples from 'components/marketing-example/layouts/CodeExamples';
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
   
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ py: 1 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  }
-  
-  TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-  };
-  
-  function a11yProps(index) {
+  function tabProps(index) {
     return {
       id: `simple-tab-${index}`,
       'aria-controls': `simple-tabpanel-${index}`,
@@ -130,9 +105,9 @@ export default function Layout({ content }) {
             </Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Basic Example" {...a11yProps(0)} />
-                    <Tab label="With Custom Components" {...a11yProps(1)} />
-                    <Tab label="Component Examples" {...a11yProps(2)} />
+                    <Tab label="Basic Example" {...tabProps(0)} />
+                    <Tab label="With Custom Components" {...tabProps(1)} />
+                    <Tab label="Component Examples" {...tabProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
