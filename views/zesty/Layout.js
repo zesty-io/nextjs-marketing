@@ -63,7 +63,7 @@ import { CustomColumn } from "components/marketing-example/layouts/CustomColumn"
 import { CustomTextarea } from "components/marketing-example/layouts/CustomTextarea";
 import { CustomText } from "components/marketing-example/layouts/CustomText";
 import { CustomLink } from "components/marketing-example/layouts/CustomLink";
-import { CustomNode } from "components/marketing-example/layouts/CustomNode";
+import { CustomImage } from "components/marketing-example/layouts/CustomImage";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -153,7 +153,8 @@ export default function Layout({ content }) {
                             "column": CustomColumn,
                             "row": CustomRow,
                             "design": CustomDesign,
-                            "link": CustomLink                   
+                            "link": CustomLink,
+                            "images": CustomImage                   
                         }} />
                 </Box>
                 <Typography variant="h5" sx={{ my: 2 }}>Code Example with Custom Components</Typography>
