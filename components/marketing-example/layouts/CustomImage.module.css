@@ -1,0 +1,9 @@
+.image {
+    border-radius: 10px;
+    border: 1px black solid;
+    transition: all 800ms ease;
+}
+
+.image:hover{
+    filter: grayscale(100%);
+}
