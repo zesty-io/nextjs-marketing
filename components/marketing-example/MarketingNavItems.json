@@ -5,11 +5,7 @@
     },
     {
         "name" : "A/B SRR",
-        "path"   :"/ab-ssr/"
-    },
-    {
-        "name" : "A/B Static",
-        "path"   :"/ab-static/"
+        "path"   :"/a-b/"
     },
     {
         "name" : "Redirects",

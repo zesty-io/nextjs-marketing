@@ -6,7 +6,8 @@
 import Widget from './Widget';
 import Homepage from './Homepage';
 import Layout from './Layout';
+import ABExample from './ABExample';
  
  export {
-   Clipping, Widget, Homepage, Layout
+   Clipping, Widget, Homepage, Layout, ABExample
  }
