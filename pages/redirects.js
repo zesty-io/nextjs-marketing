@@ -83,7 +83,6 @@ export default function Redirects(props) {
         <TabPanel value={value} index={1}>
           <Typography sx={{py: 2}} component="p">Live Redirects for this Project</Typography>
             {redirects.map(redirect => {
-              console.log(redirect);
               return (
               <Box key={redirect.source}>
                 <Paper elevation={1} sx={{p:2, mb: 5}}>

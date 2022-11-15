@@ -32,6 +32,8 @@
  import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
  import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism';
  import TabPanel from 'components/marketing-example/ui/TabPanel'
+ import { useRouter } from 'next/router'
+
  
 function tabProps(index) {
     return {
@@ -39,32 +41,83 @@ function tabProps(index) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
-
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
  
  function ABExample({ content }) {
-    const [value, setValue] = React.useState(0);
+    const router = useRouter()
+    const startTab = router.query?.UTM_Campaign ? 3 : 0
+    const utmOption = router.query?.UTM_Campaign ? content.ab_options.data.find(ab => ab.utm_campaign == router.query.UTM_Campaign) : content;
+    const [value, setValue] = React.useState(startTab);
+    const optionsTotal = content.ab_options.data.length;
+    const [randomNumber, setRandomNumber] = React.useState(getRandomInt(0,(optionsTotal - 1)));
+    const [randomClientNumber, setRandomClientNumber] = React.useState(getRandomInt(0,(optionsTotal - 1)));
+    const [utmABOption, setUtmABOption] = React.useState(utmOption);
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const changeRandomClientNumber = () => {
+        setRandomClientNumber(getRandomInt(0,(optionsTotal - 1)))
+    }
   
     const viewInGithub = `https://github.com/zesty-io/nextjs-marketing/blob/main/views/zesty/ABExample.js`
     const editInZesty = `https://${process.env.zesty.instance_zuid}.manager.zesty.io/content/${content.meta.model.zuid}/${content.meta.zuid}`
      return (
         <>
             <Box sx={{ mt: 4 }}>
-        
                 <Button target="_blank" size="small" startIcon={<GitHubIcon />} sx={{float: 'right', mt: 1, ml:2}} variant="contained" href={viewInGithub}>View in Github</Button>
-                <Button target="_blank" size="small" startIcon={<OpenInNewIcon />} sx={{float: 'right', mt: 1}} variant="outlined" href={editInZesty}>Edit Layouts Zesty</Button>
+                <Button target="_blank" size="small" startIcon={<OpenInNewIcon />} sx={{float: 'right', mt: 1}} variant="outlined" href={editInZesty}>Edit Example Zesty</Button>
                 <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>A/B Example</Typography>
                 <Typography sx={{mb: 3}}>Natively in Zesty A/B Headless Models can be connected to Page Models can deliver ad specific content, random content, or personalized content.
                 </Typography>
             </Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Basic Example" {...tabProps(0)} />
+                    <Tab label="Fallback Content" {...tabProps(0)} />
+                    <Tab label="Random A/B at Render" {...tabProps(1)} />
+                    <Tab label="Client Controled A/B Output" {...tabProps(2)} />
+                    <Tab label="UTM Campaign Controled A/B Rendering" {...tabProps(3)} />
+                    <Tab label="In Zesty" {...tabProps(4)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
+                <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
+                    <Typography variant="h5" sx={{ my: 2 }}>{content.title}</Typography>
+                    <img src={content.image.data[0].url} width="50%" alt={content.title} />
+                    <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: content.content}} />
+                </Box>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
+                    <Typography variant="h5" sx={{ my: 2 }}>{content.ab_options.data[randomNumber].title}</Typography>
+                    <img src={content.ab_options.data[randomNumber].image.data[0].url} width="50%" alt={content.ab_options.data[randomNumber].title} />
+                    <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: content.ab_options.data[randomNumber].content}} />
+                </Box>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <Button variant="outlined" sx={{ mr: 3, mt: 3}} onClick={changeRandomClientNumber}>Get Random A/B Test</Button>
+                <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
+                    <Typography variant="h5" sx={{ my: 2 }}>{content.ab_options.data[randomClientNumber].title}</Typography>
+                    <img src={content.ab_options.data[randomClientNumber].image.data[0].url} width="50%" alt={content.ab_options.data[randomClientNumber].title} />
+                    <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: content.ab_options.data[randomClientNumber].content}} />
+                </Box>
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                {content.ab_options.data.map(ab => <Button startIcon={<OpenInNewIcon/>} key={ab.utm_campaign} variant="outlined" sx={{mr: 3, mt: 3}} component="a" href={`?UTM_Campaign=${ab.utm_campaign}`}>Test Campaign: {ab.utm_campaign}</Button>)}
+                <Button startIcon={<OpenInNewIcon/>} variant="outlined" sx={{mr: 3, mt: 3}} component="a" href={`?UTM_Campaign=`}>Reset</Button>
+                
+                <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
+                    <Typography variant="h5" sx={{ my: 2 }}>{utmABOption.title}</Typography>
+                    <img src={utmABOption.image.data[0].url} width="50%" alt={utmABOption.title} />
+                    <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: utmABOption.content}} />
+                </Box>
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+                
             </TabPanel>
         </>
      );
