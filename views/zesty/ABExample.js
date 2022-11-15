@@ -107,12 +107,12 @@ function getRandomInt(min, max) {
                 </Box>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                {content.ab_options.data.map(ab => <Button startIcon={<OpenInNewIcon/>} key={ab.utm_campaign} variant="outlined" sx={{mr: 3, mt: 3}} component="a" href={`?UTM_Campaign=${ab.utm_campaign}`}>Test Campaign: {ab.utm_campaign}</Button>)}
+                {content.ab_options.data.map(ab => <Button startIcon={<OpenInNewIcon/>} key={ab.utm_campaign} variant="outlined" sx={{mr: 3, mt: 3}} component="a" href={`?UTM_Campaign=${ab.utm_campaign}`}>Campaign: {ab.utm_campaign}</Button>)}
                 <Button startIcon={<OpenInNewIcon/>} variant="outlined" sx={{mr: 3, mt: 3}} component="a" href={`?UTM_Campaign=`}>Reset</Button>
                 
                 <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
                     <Typography variant="h5" sx={{ my: 2 }}>{utmABOption.title}</Typography>
-                    <img src={utmABOption.image.data[0].url} width="50%" alt={utmABOption.title} />
+                    <img src={utmABOption.image.data[0]?.url} width="50%" alt={utmABOption.title} />
                     <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: utmABOption.content}} />
                 </Box>
             </TabPanel>

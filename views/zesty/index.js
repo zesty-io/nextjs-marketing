@@ -7,7 +7,9 @@ import Widget from './Widget';
 import Homepage from './Homepage';
 import Layout from './Layout';
 import ABExample from './ABExample';
+import ABOption from './ABOption';
+import Personalization from './Personalization';
  
  export {
-   Clipping, Widget, Homepage, Layout, ABExample
+   Clipping, Widget, Homepage, Layout, ABExample, ABOption, Personalization
  }
