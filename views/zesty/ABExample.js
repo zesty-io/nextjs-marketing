@@ -117,7 +117,7 @@ function getRandomInt(min, max) {
                 </Box>
             </TabPanel>
             <TabPanel value={value} index={4}>
-                
+                <div dangerouslySetInnerHTML={{__html: content.zesty_documentation}} />
             </TabPanel>
         </>
      );
