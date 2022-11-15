@@ -65,6 +65,7 @@ import { CustomText } from "components/marketing-example/layouts/CustomText";
 import { CustomLink } from "components/marketing-example/layouts/CustomLink";
 import { CustomNode } from "components/marketing-example/layouts/CustomNode";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { CustomDesign } from 'components/marketing-example/layouts/CustomDesign';
@@ -117,6 +118,8 @@ export default function Layout({ content }) {
         <>
         
             <Box sx={{ mt: 4 }}>
+            
+                <Button target="_blank" size="small" startIcon={<GitHubIcon />} sx={{float: 'right', mt: 1, ml:2}} variant="contained" href={`https://github.com/zesty-io/nextjs-marketing/blob/94dc752b895e7674afabbc4fea63f0d15a203385/views/zesty/Layout.js#L57`}>View in Github</Button>
                 <Button target="_blank" size="small" startIcon={<OpenInNewIcon />} sx={{float: 'right', mt: 1}} variant="outlined" href={editInZesty}>Edit Layouts Zesty</Button>
                 <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>Layouts</Typography>
                 <Typography sx={{mb: 3}}>Layouts is drag-n-drop experience for Marketers to control the layout of their pages. 
