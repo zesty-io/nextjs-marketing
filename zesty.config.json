@@ -9,5 +9,6 @@
     "model_ignore_list": [
       "6-xyz" 
     ]
-  }
+  },
+  "initialized" : false
 }
