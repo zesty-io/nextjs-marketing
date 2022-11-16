@@ -1,13 +1,13 @@
 {
-         "instance_zuid": "8-80a8a5f897-6wr8s8",
-         "stage": "https://pt9nc6rn-dev.webengine.zesty.io",
-         "production": "http://nextjsmarketing.zesty.dev", 
-         "stage_password": "f4ca1f",
-         "src_dir": "",
-         "options": {
-           "skip_config_overwrite": false, 
-           "model_ignore_list": [
-             "6-xyz" 
-           ]
-         }
-     }
+  "instance_zuid": "", 
+  "stage": "", 
+  "production": "", 
+  "stage_password": "",
+  "src_dir": "", 
+  "options": {
+    "skip_config_overwrite": false,
+    "model_ignore_list": [
+      "6-xyz" 
+    ]
+  }
+}
