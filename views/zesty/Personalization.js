@@ -97,7 +97,7 @@ function Personalization({ content }) {
                     {p.name}
                     </Button>)}
                 </Box>
-                <Typography sx={{mb:2}}><strong>{articles.length}</strong> Results for Persona <strong>{persona}</strong></Typography>
+                <Typography sx={{mb:2}}>Fetching <strong>{articles.length}</strong> Results for Persona <strong>{persona}</strong></Typography>
                 {articles.map(article => <Paper sx={{p:3}} elevation={2}>
                     <Typography variant="h6">{article.title}</Typography>
                     <img align="right" src={article.image.data[0].url} width="200" />

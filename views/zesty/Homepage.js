@@ -26,8 +26,8 @@ export default function Homepage({content}){
                     "design": ZestyTutorial                   
                 }} />
         </Box>
-        <Divider/>
-            <ZestyTutorial contnet={content}></ZestyTutorial>
+        {/* <Divider/>
+            <ZestyTutorial contnet={content}></ZestyTutorial> */}
         </> 
     )
 }
