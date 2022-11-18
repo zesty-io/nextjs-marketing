@@ -56,7 +56,7 @@
  
  function Personalization({ content }) {
      const [value, setValue] = React.useState(0);
-     const [persona, setPersona] = React.useState('7-f4809ab3d2-c9hxb2');
+     const [persona, setPersona] = React.useState(content.personas_to_display.data[0].meta.zuid);
      const [articles, setArticles] = React.useState([]);
      const handleChange = (event, newValue) => {
          setValue(newValue);
