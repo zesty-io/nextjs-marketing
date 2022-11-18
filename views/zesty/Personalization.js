@@ -99,7 +99,7 @@ React.useEffect(() => {
       // for populating redirects
    React.useEffect(() => {
      const fetchArticles = async () => {
-         const res = await fetch(personalizatonEndpointURL);
+         const res = await fetch(personalizatonEndpointURL(persona));
          const data = await res.json()
          setArticles(data)
       }
