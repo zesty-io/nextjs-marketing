@@ -47,6 +47,16 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
  
+// this is only needed when a new isntance is created with image urls
+// the tyope string test is what determins that
+// this function should be built into zesty integration
+function getImageForTemplateExample(image){
+    if (typeof image === 'string' || image instanceof String){
+        return image;
+    }
+    return image.data[0].url
+}
+
  function ABExample({ content }) {
     const router = useRouter()
     const startTab = router.query?.UTM_Campaign ? 3 : 0
@@ -87,14 +97,14 @@ function getRandomInt(min, max) {
             <TabPanel value={value} index={0}>
                 <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
                     <Typography variant="h5" sx={{ my: 2 }}>{content.title}</Typography>
-                    <img src={content.image.data[0].url} width="50%" alt={content.title} />
+                    <img src={getImageForTemplateExample(content.image)} width="50%" alt={content.title} />
                     <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: content.content}} />
                 </Box>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
                     <Typography variant="h5" sx={{ my: 2 }}>{content.ab_options.data[randomNumber].title}</Typography>
-                    <img src={content.ab_options.data[randomNumber].image.data[0].url} width="50%" alt={content.ab_options.data[randomNumber].title} />
+                    <img src={getImageForTemplateExample(content.ab_options.data[randomNumber].image)} width="50%" alt={content.ab_options.data[randomNumber].title} />
                     <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: content.ab_options.data[randomNumber].content}} />
                 </Box>
             </TabPanel>
@@ -102,7 +112,7 @@ function getRandomInt(min, max) {
                 <Button variant="outlined" sx={{ mr: 3, mt: 3}} onClick={changeRandomClientNumber}>Get Random A/B Test</Button>
                 <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
                     <Typography variant="h5" sx={{ my: 2 }}>{content.ab_options.data[randomClientNumber].title}</Typography>
-                    <img src={content.ab_options.data[randomClientNumber].image.data[0].url} width="50%" alt={content.ab_options.data[randomClientNumber].title} />
+                    <img src={getImageForTemplateExample(content.ab_options.data[randomClientNumber].image)} width="50%" alt={content.ab_options.data[randomClientNumber].title} />
                     <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: content.ab_options.data[randomClientNumber].content}} />
                 </Box>
             </TabPanel>
@@ -112,7 +122,7 @@ function getRandomInt(min, max) {
                 
                 <Box sx={{ my: 4, px:4, py:2, border: '1px #ccc solid', borderRadius: '5px' }}>
                     <Typography variant="h5" sx={{ my: 2 }}>{utmABOption.title}</Typography>
-                    <img src={utmABOption.image.data[0]?.url} width="50%" alt={utmABOption.title} />
+                    <img src={getImageForTemplateExample(utmABOption.image)} width="50%" alt={utmABOption.title} />
                     <Typography variant="body" sx={{ my: 2 }} dangerouslySetInnerHTML={{__html: utmABOption.content}} />
                 </Box>
             </TabPanel>
