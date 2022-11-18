@@ -30,7 +30,8 @@
  import { Typography, Box, Tabs, Tab, Button, Paper, Avatar} from '@mui/material';
  import PropTypes from 'prop-types';
  import TabPanel from 'components/marketing-example/ui/TabPanel'
- 
+ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+ import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism'; 
  import { CustomRow } from "components/marketing-example/personalization/CustomRow";
  import { CustomColumn } from "components/marketing-example/personalization/CustomColumn";
  import { CustomTextarea } from "components/marketing-example/personalization/CustomTextarea";
@@ -43,8 +44,29 @@
          'aria-controls': `simple-tabpanel-${index}`,
      };
  }
- 
- // this is only needed when a new isntance is created with image urls
+
+ const codeReferenceForEndpoint = `
+{{$persona = empty}} 
+{{if {get_var.persona} }}
+{{$persona = {get_var.persona} }} 
+{{end-if}}
+[
+    {{each articles as article where find_in_set('{$persona}',article.targeted_personas) }}
+    {{article.toJSON()}}
+    {{if {article._length} != {article._num} }}, {{end-if}}
+    {{end-each}}
+]
+`
+
+const zestyManagerCodeLink = `https://${process.env.zesty.instance_zuid}.manager.zesty.io/code`;
+function personalizatonEndpointURL(persona){
+    return `${process.env.zesty.stage}/personalization/articles_by_persona.json?persona=${persona}&zpw=${process.env.zesty.stage_password}`;
+}
+
+
+
+
+// this is only needed when a new isntance is created with image urls
  // the tyope string test is what determins that
  // this function should be built into zesty integration
  function getImageForTemplateExample(image){
@@ -61,11 +83,23 @@
      const handleChange = (event, newValue) => {
          setValue(newValue);
      };
+
+     const codeReferenceFetch = `
+React.useEffect(() => {
+    const fetchArticles = async () => {
+        const res = await fetch('${personalizatonEndpointURL(persona)}');
+        const data = await res.json()
+        setArticles(data)
+     }
+    
+    fetchArticles().catch(console.error);
+  },[persona]);
+`
  
       // for populating redirects
    React.useEffect(() => {
      const fetchArticles = async () => {
-         const res = await fetch(`${process.env.zesty.stage}/personalization/articles_by_persona.json?persona=${persona}&zpw=${process.env.zesty.stage_password}`);
+         const res = await fetch(personalizatonEndpointURL);
          const data = await res.json()
          setArticles(data)
       }
@@ -115,7 +149,14 @@
                  </Paper>)}
              </TabPanel> 
              <TabPanel value={value} index={1}>
-                 Endpoint
+                <Typography>Personalization makes a call to a custom parsley file named "articles_by_persona.json" that returns article by persona ZUID. View this file in the <a href={zestyManagerCodeLink} target="_blank">manager code app</a>.</Typography>
+                <SyntaxHighlighter showLineNumbers  language="javascript" style={nord}>
+                {codeReferenceForEndpoint}
+                </SyntaxHighlighter>
+                <Typography>This code creates a fetchable endpoint to <a target="_blank" href={personalizatonEndpointURL(persona)}>{personalizatonEndpointURL(persona)}</a>. This is an exampe react useEffect function call to that endpoint.</Typography>
+                <SyntaxHighlighter showLineNumbers  language="javascript" style={nord}>
+                {codeReferenceFetch}
+                </SyntaxHighlighter>
              </TabPanel>
              <TabPanel value={value} index={2}>
                  <div dangerouslySetInnerHTML={{__html: content.zesty_documentation}} />
